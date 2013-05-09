@@ -12,8 +12,10 @@ class Node:
         
     def getError():
         #return error
+        print "test"
         
     def compute():
         #return computed value
+        print "test"
 
 #end Node

@@ -5,12 +5,12 @@
 
 import node
 
-def TestNetwork(test_data:[(sixFold:real, eccentricity:real)]):
+def TestNetwork(test_data):
 
     epochs:int = 0;
     
     
-def getTrainedNetwork(networFilename:String):
+def getTrainedNetwork(networFilename):
 
 def basicOutput(): #The number of classiﬁcation errors, recognition rate (% correct) 
                    #and proﬁt obtained
