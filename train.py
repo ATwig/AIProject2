@@ -7,7 +7,7 @@ import node
 import sys
 import csv
 
-def trainNetwork(training_data):
+def trainNetwork(training_data, network):
     #Function returns a list of the networks at each epoch
     #Eg: trainedNetwork[0] is the network after 10 epochs,
     #     trainedNetwork[1] is the network after 100 epochs, Etc.
@@ -36,7 +36,7 @@ def outputTree(trainedNet):
     #use pickle?
     print "out"
     
-
+	
 def main():
     if len(sys.argv) != 2:
         print ("Error, wrong number of arguments")
