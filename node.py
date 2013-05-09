@@ -3,6 +3,8 @@
 #Cameron Burton
 #Dennis Honeyman
 
+import math
+
 class Node:
 
     def __init__(self, parents):
@@ -10,6 +12,7 @@ class Node:
         if parents != []:
             for parent in parents:
                 parent[0].children.append(self)
+        self.defaultOutput = 1
         self.children = []
 
     def getError(self):
@@ -17,8 +20,17 @@ class Node:
         print "test"
 
     def compute(self):
-        #return computed value
-        print "test"
+        if self.parents == []:
+            return self.defaultOutput
+
+        result = 0
+        for parent in self.parents:
+            result += parent[1] * parent[0].compute()
+        return self.activationFunction(result)
+
+    def activationFunction(self, result):
+        #print 1 / (1 + math.e ** (-1 * result))
+        return 1 / (1 + math.e ** (-1 * result))
 
     def getDepth(self):
         if self.children == []:

@@ -1,4 +1,5 @@
 import random
+import cPickle
 
 from node import *;
 
@@ -22,14 +23,18 @@ class Network:
 
 
     def PrintNetwork(self):
-        #for node in [self.boltNode, self.nutNode, self.ringNode, self.scrapNode]:
-        for node in [self.boltNode]:
+        for node in [self.boltNode, self.nutNode, self.ringNode, self.scrapNode]:
             print str(node)
 
     def TrainNetwork(self, trainingData, epochs, weightFilename, imageFilename):
         #todo
         pass
 
-    def TestNetwork(self, testData, classificationRegionFilename):
-        #todo
-        pass
+    def TestNetwork(self, testData, trainedWeightsFilename, classificationRegionFilename):
+        data = cPickle.load(trainedWeightsFilename)
+        self.boltNode = data[0]
+        self.nutNode = data[1]
+        self.ringNode = data[2]
+        self.scrapNode = data[3]
+
+        #TODO: Test

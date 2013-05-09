@@ -38,10 +38,6 @@ def outputTree(trainedNet):
 
 
 def main():
-    #TODO: For testing
-    net = Network()
-    net.PrintNetwork()
-
     if len(sys.argv) != 2:
         print ("Error, wrong number of arguments")
         return
@@ -49,6 +45,22 @@ def main():
     trainingData = getTrainingData(sys.argv[1])
 
     #trainedNetworks = trainNetwork(training_data)
+
+
+def testNetwork():
+    net = Network()
+    net.PrintNetwork()
+
+def testNodes():
+    p1 = Node([])
+    p1.defaultOutput = 0
+    p2 = Node([])
+    p2.defaultOutput = 1
+    p3 = Node([])
+    p3.defaultOutput = 1
+
+    node = Node([(p1, 0.3), (p2, 0.6), (p3, 0.8)])
+    print node.compute()
 
 
 if __name__ == "__main__":
