@@ -37,7 +37,7 @@ def main():
     trainingData = getTrainingData(sys.argv[1])
 
     net = Network()
-    net.TrainNetwork(trainingData, 8, "", "")
+    net.TrainNetwork(trainingData, 5, "network%s.pickle" %5, "")
     net.PrintNetwork()
 
 

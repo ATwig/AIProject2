@@ -1,3 +1,4 @@
+import cPickle
 import random
 
 from node import *;
@@ -7,21 +8,22 @@ class Network:
         def randomWeight():
             return random.randrange(-1, 1)
 
-        self.symInputNode = Node([])
-        self.ecInputNode = Node([])
+        self.symInputNode = Node("sym", [])
+        self.ecInputNode = Node("ec", [])
 
         hiddenLayer = []
         for i in range(0, 5):
-            hiddenLayer.append(Node([
+            hiddenLayer.append(Node("hidden%s" % i, [
                 [self.symInputNode, randomWeight()],
                 [self.ecInputNode, randomWeight()],
-                [Node([]), randomWeight()],
+                [Node("bias%s" % i, []), randomWeight()],
                 ]))
+        hiddenLayer.append(Node("biasOutput", []))
 
-        self.boltNode = Node(map(lambda x, y: [x, randomWeight()], hiddenLayer, range(0,5)))
-        self.nutNode = Node(map(lambda x, y: [x, randomWeight()], hiddenLayer, range(0,5)))
-        self.ringNode = Node(map(lambda x, y: [x, randomWeight()], hiddenLayer, range(0,5)))
-        self.scrapNode = Node(map(lambda x, y: [x, randomWeight()], hiddenLayer, range(0,5)))
+        self.boltNode = Node("bolt", map(lambda x, y: [x, randomWeight()], hiddenLayer, range(0,6)))
+        self.nutNode = Node("nut", map(lambda x, y: [x, randomWeight()], hiddenLayer, range(0,6)))
+        self.ringNode = Node("ring", map(lambda x, y: [x, randomWeight()], hiddenLayer, range(0,6)))
+        self.scrapNode = Node("scrap", map(lambda x, y: [x, randomWeight()], hiddenLayer, range(0,6)))
 
         self.outputNodes = [self.boltNode, self.nutNode, self.ringNode, self.scrapNode]
 
@@ -62,6 +64,7 @@ class Network:
                     node.reset()
 
                 #self.PrintNetwork();
+        cPickle.dump(self, file(weightFilename, 'w'))
 
 
     def TestNetwork(self, testData, trainedWeightsFilename, classificationRegionFilename):
