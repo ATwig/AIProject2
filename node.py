@@ -5,16 +5,17 @@
 
 import math
 
-LEARNING_RATE = 0.1
+LEARNING_RATE = 0.9
 
 class Node:
 
-    def __init__(self, parents):
+    def __init__(self, name, parents):
         self.parents = parents
         if parents != []:
             for parent in parents:
                 parent[0].children.append(self)
         self.output = 1
+        self.name = name
         self.activationValue = 0
         self.error = None
         self.correctValue = None
@@ -23,7 +24,7 @@ class Node:
     def calcError(self):
         if self.children == []:
             #output calculation
-            self.error = self.activationFnDeriv(self.activationValue) * (self.correctValue - self.output)
+            self.error = self.activationFnDeriv(self.output) * (self.correctValue - self.output)
         else:
             #hidden calculation
             sumOfChildError = 0
@@ -33,7 +34,7 @@ class Node:
                 for i in child.parents:
                     if i[0] == self:
                         sumOfChildError += child.error * i[1]
-            self.error = self.activationFnDeriv(self.activationValue) * sumOfChildError
+            self.error = self.activationFnDeriv(self.output) * sumOfChildError
 
     def compute(self):
         if self.parents == []:
@@ -50,7 +51,7 @@ class Node:
 
     def updateWeights(self, recursively):
         for parent in self.parents:
-            parent[1] += LEARNING_RATE * self.output * parent[0].error
+            parent[1] += LEARNING_RATE * parent[0].output * self.error
 
         if not recursively:
             return
@@ -93,6 +94,6 @@ class Node:
 
     def __str__(self):
         if self.parents == []:
-            return "[%s NODE]" % self.error
-        return ("[%s NODE]\n" % self.error) + "".join(
-                map(lambda x: "%s(%s) %s\n" % ("  " * x[0].getDepth(), x[1], x[0]), self.parents))
+            return "[%s]" % self.name
+        return ("[err:%s %s]\n" % (self.error, self.name)) + "".join(
+                map(lambda x: "%s(weight: %s) %s\n" % ("  " * x[0].getDepth(), x[1], x[0]), self.parents))
