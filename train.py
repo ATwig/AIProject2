@@ -6,6 +6,7 @@
 import sys
 import csv
 import cProfile
+from pylab import *
 
 from network import *
 from node import *
@@ -37,7 +38,7 @@ def main():
     trainingData = getTrainingData(sys.argv[1])
 
     net = Network()
-    net.TrainNetwork(trainingData, 5, "network%s.pickle" %5, "")
+    net.TrainNetwork(trainingData, 300, "network%s.pickle" %5, "test5.png")
     net.PrintNetwork()
 
 
