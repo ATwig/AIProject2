@@ -1,5 +1,4 @@
 import random
-import cPickle
 
 from node import *;
 
@@ -66,10 +65,5 @@ class Network:
 
 
     def TestNetwork(self, testData, trainedWeightsFilename, classificationRegionFilename):
-        data = cPickle.load(trainedWeightsFilename)
-        self.boltNode = data[0]
-        self.nutNode = data[1]
-        self.ringNode = data[2]
-        self.scrapNode = data[3]
-
         #TODO: Test
+        pass

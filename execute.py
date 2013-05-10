@@ -3,25 +3,20 @@
 #Cameron Burton
 #Dennis Honeyman
 
-import node
+import cPickle
+import sys
 
-def TestNetwork(test_data):
-
-    epochs:int = 0;
-    
-    
-def getTrainedNetwork(networFilename):
-
-def basicOutput(): #The number of classiﬁcation errors, recognition rate (% correct) 
-                   #and proﬁt obtained
-
-def matrixOut(): #A confusion matrix that gives a histogram of the output class
-                 #(rows) vs. correct class (columns) results
-                 
-def imageOut():
-
+from network import *
+from node import *
 
 def main():
+    if len(sys.argv) != 2:
+        print "Error, wrong number of arguments"
+        return
 
+    net = cPickle.load(sys.argv[1])
+    #TODO: Run testing functions
+    pass
 
-#main()
+if __name__ == '__main__':
+    main()

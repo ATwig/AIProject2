@@ -10,13 +10,6 @@ import cProfile
 from network import *
 from node import *
 
-def trainNetwork(training_data, network):
-    #Function returns a list of the networks at each epoch
-    #Eg: trainedNetwork[0] is the network after 10 epochs,
-    #     trainedNetwork[1] is the network after 100 epochs, Etc.
-    epochs = 0
-    trainedNetwork = []
-
 
 def getTrainingData(trainingFile):
 
@@ -30,6 +23,7 @@ def getTrainingData(trainingFile):
 
     return trainingData
 
+
 def outputTree(trainedNet):
     #use pickle?
     print "out"
@@ -37,7 +31,7 @@ def outputTree(trainedNet):
 
 def main():
     if len(sys.argv) != 2:
-        print ("Error, wrong number of arguments")
+        print "Error, wrong number of arguments"
         return
 
     trainingData = getTrainingData(sys.argv[1])
