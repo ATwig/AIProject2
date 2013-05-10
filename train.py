@@ -5,6 +5,7 @@
 
 import sys
 import csv
+import cProfile
 
 from network import *
 from node import *
@@ -27,9 +28,6 @@ def getTrainingData(trainingFile):
             tempRow = [float(i) for i in row]
             trainingData.append(tempRow)
 
-    for i in trainingData:
-        print i
-
     return trainingData
 
 def outputTree(trainedNet):
@@ -44,7 +42,9 @@ def main():
 
     trainingData = getTrainingData(sys.argv[1])
 
-    #trainedNetworks = trainNetwork(training_data)
+    net = Network()
+    net.TrainNetwork(trainingData, 8, "", "")
+    net.PrintNetwork()
 
 
 def testNetwork():
@@ -65,3 +65,4 @@ def testNodes():
 
 if __name__ == "__main__":
     main()
+    #cProfile.run('main()')

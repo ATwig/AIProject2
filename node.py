@@ -23,15 +23,17 @@ class Node:
     def calcError(self):
         if self.children == []:
             #output calculation
-            self.error = activationFnDeriv(self.activationValue) * (self.correctValue - self.output)
+            self.error = self.activationFnDeriv(self.activationValue) * (self.correctValue - self.output)
         else:
             #hidden calculation
             sumOfChildError = 0
             for child in self.children:
+                if child.error is None:
+                    child.calcError()
                 for i in child.parents:
                     if i[0] == self:
                         sumOfChildError += child.error * i[1]
-            self.error = activationFnDeriv(self.activationValue) * sumOfChildError
+            self.error = self.activationFnDeriv(self.activationValue) * sumOfChildError
 
     def compute(self):
         if self.parents == []:
@@ -44,21 +46,24 @@ class Node:
         return self.output
 
     def activationFn(self, num):
-        return 1 / (1 + math.e ** (-1 * num))
+        return 1 / (1 + math.e ** (-num))
 
-    def updateWeights(self):
-        for parent in parents:
-            parent[1] += LEARNING_RATE * self.activationValue * self.error
+    def updateWeights(self, recursively):
+        for parent in self.parents:
+            parent[1] += LEARNING_RATE * self.output * parent[0].error
 
-        for parent in parents:
-            parent[0].updateWeights()
+        if not recursively:
+            return
+
+        for parent in self.parents:
+            parent[0].updateWeights(True)
 
     def updateError(self):
-        if self.correctValue == None:
+        if self.correctValue == None and self.children == []:
             print "ERROR: Set correctValue before updating errors!"
             return
         self.calcError()
-        for i in parents:
+        for i in self.parents:
             i[0].updateError()
 
     def reset(self):
@@ -67,7 +72,7 @@ class Node:
         self.error = None
         self.correctValue = None
 
-        for parent in parents:
+        for parent in self.parents:
             parent[0].reset()
 
     def activationFnDeriv(self, num):
