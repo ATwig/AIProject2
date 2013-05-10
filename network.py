@@ -27,8 +27,32 @@ class Network:
             print str(node)
 
     def TrainNetwork(self, trainingData, epochs, weightFilename, imageFilename):
-        #todo
-        pass
+        for i in range(epochs):
+            for entry in trainingData:
+                self.symInputNode.defaultOutput = entry[0]
+                self.ecInputNode.defaultOutput = entry[1]
+
+                boltOutput = self.boltNode.compute()
+                nutOutput = self.nutNode.compute()
+                ringOutput = self.ringNode.compute()
+                scrapOutput = self.scrapNode.compute()
+
+                expected_result = [0]*4
+                expected_result[int(entry[2]) - 1] = 1
+
+                map(lambda node, value: node.correctValue = value,
+                        [boltNode, nutNode, ringNode, scrapNode],
+                        expected_result)
+
+                for node in [boltNode, nutNode, ringNode, scrapNode]:
+                    node.updateError()
+
+                for node in [boltNode, nutNode, ringNode, scrapNode]:
+                    node.updateWeights()
+
+                for node in [boltNode, nutNode, ringNode, scrapNode]:
+                    node.reset()
+
 
     def TestNetwork(self, testData, trainedWeightsFilename, classificationRegionFilename):
         data = cPickle.load(trainedWeightsFilename)
