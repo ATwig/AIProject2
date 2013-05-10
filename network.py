@@ -77,6 +77,36 @@ class Network:
         p.savefig(imageFilename)
         p.show()
 
-    def TestNetwork(self, testData, trainedWeightsFilename, classificationRegionFilename):
-        #TODO: Test
-        pass
+    def TestNetwork(self, testData, classificationRegionFilename):
+        for entry in testData:
+			self.symInputNode.output = entry[0]
+			self.ecInputNode.output = entry[1]
+
+			self.boltNode.compute()
+			self.nutNode.compute()
+			self.ringNode.compute()
+			self.scrapNode.compute()
+
+			maxIterator = 0
+			maxIndex = 0
+			maxValue = 0
+			while maxIterator < 4:
+				if maxValue < self.outputNodes[maxIterator].output:
+					maxValue = float(self.outputNodes[maxIterator].output)
+					maxIndex = int(maxIterator)
+				
+				maxIterator += 1
+				
+			if maxIndex+1 == entry[2]:
+				print "Match!\n"
+			else:
+				print "Wrong: %s vs %s" % ((maxIndex+1), entry[2])
+				for n in self.outputNodes:
+					print n.output
+					
+				print "-----\n"
+			
+			#self.PrintNetwork();
+
+			for node in self.outputNodes:
+				node.reset()
