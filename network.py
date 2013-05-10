@@ -29,8 +29,8 @@ class Network:
     def TrainNetwork(self, trainingData, epochs, weightFilename, imageFilename):
         for i in range(epochs):
             for entry in trainingData:
-                self.symInputNode.defaultOutput = entry[0]
-                self.ecInputNode.defaultOutput = entry[1]
+                self.symInputNode.output = entry[0]
+                self.ecInputNode.output = entry[1]
 
                 boltOutput = self.boltNode.compute()
                 nutOutput = self.nutNode.compute()
@@ -40,9 +40,8 @@ class Network:
                 expected_result = [0]*4
                 expected_result[int(entry[2]) - 1] = 1
 
-                map(lambda node, value: node.correctValue = value,
-                        [boltNode, nutNode, ringNode, scrapNode],
-                        expected_result)
+                for node, value in zip([boltNode, nutNode, ringNode, scrapNode], expected_result):
+                    node.correctValue = value
 
                 for node in [boltNode, nutNode, ringNode, scrapNode]:
                     node.updateError()
@@ -50,8 +49,12 @@ class Network:
                 for node in [boltNode, nutNode, ringNode, scrapNode]:
                     node.updateWeights()
 
+                PrintNetwork();
+
                 for node in [boltNode, nutNode, ringNode, scrapNode]:
                     node.reset()
+
+                PrintNetwork();
 
 
     def TestNetwork(self, testData, trainedWeightsFilename, classificationRegionFilename):
