@@ -1,0 +1,9 @@
+# AI Project 2
+
+You can run train.py by running:
+
+    python train.py training_data.csv
+
+You can run execute.py by running:
+
+    python execute.py test_data.csv network.pickle
