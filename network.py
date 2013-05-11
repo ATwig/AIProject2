@@ -19,7 +19,7 @@ class Network:
                 [self.ecInputNode, randomWeight()],
                 [Node("bias%s" % i, []), randomWeight()],
                 ]))
-        outputParents = self.hiddenNodes + [Node("biasOutput", [])]
+            outputParents = self.hiddenNodes + [Node("biasOutput", [])]
 
         self.boltNode = Node("bolt", map(lambda x, y: [x, randomWeight()], outputParents, range(0,6)))
         self.nutNode = Node("nut", map(lambda x, y: [x, randomWeight()], outputParents, range(0,6)))
@@ -78,42 +78,58 @@ class Network:
 
     def TestNetwork(self, testData, classificationRegionFilename):
         for entry in testData:
-			self.symInputNode.output = entry[0]
-			self.ecInputNode.output = entry[1]
+            self.symInputNode.output = entry[0]
+            self.ecInputNode.output = entry[1]
 
-			self.boltNode.compute()
-			self.nutNode.compute()
-			self.ringNode.compute()
-			self.scrapNode.compute()
+            self.boltNode.compute()
+            self.nutNode.compute()
+            self.ringNode.compute()
+            self.scrapNode.compute()
 
-			maxIterator = 0
-			maxIndex = 0
-			maxValue = 0
-			while maxIterator < 4:
-				if maxValue < self.outputNodes[maxIterator].output:
-					maxValue = float(self.outputNodes[maxIterator].output)
-					maxIndex = int(maxIterator)
-				
-				maxIterator += 1
-				
-			if maxIndex+1 == entry[2]:
-				print "Match!\n"
-			else:
-				print "Wrong: %s vs %s" % ((maxIndex+1), entry[2])
-				for n in self.outputNodes:
-					print n.output
-					
-				print "-----\n"
-			
-			#self.PrintNetwork();
+            maxIterator = 0
+            maxIndex = 0
+            maxValue = 0
+            while maxIterator < 4:
+                if maxValue < self.outputNodes[maxIterator].output:
+                    maxValue = float(self.outputNodes[maxIterator].output)
+                    maxIndex = int(maxIterator)
 
-			for node in self.outputNodes:
-				node.reset()
+                maxIterator += 1
+
+            if maxIndex+1 == entry[2]:
+                print "Match!\n"
+            else:
+                print "Wrong: %s vs %s" % ((maxIndex+1), entry[2])
+                for n in self.outputNodes:
+                    print n.output
+
+                print "-----\n"
+
+            #self.PrintNetwork();
+
+            for node in self.outputNodes:
+                node.reset()
+
+    def GetResult(self, rotationalSymmetry, eccentricity):
+        self.symInputNode.output = rotationalSymmetry
+        self.ecInputNode.output = eccentricity
+
+        self.boltNode.compute()
+        self.nutNode.compute()
+        self.ringNode.compute()
+        self.scrapNode.compute()
+
+        maxValue = max(map(lambda x: x.output, self.outputNodes))
+        return [x[1] for x in
+                zip(self.outputNodes, range(len(self.outputNodes)))
+                if x[0].output == maxValue][0]
+
 
     def WriteClassificationRegion(self, imageFilename):
         p.xlabel("eccentricity")
         p.ylabel("rotational symmetry")
         for ecc in p.arange(0.0, 1.0, 0.02):
             for rotsym in p.arange(0.0, 1.0, 0.02):
-                p.plot([ecc], [rotsym], 'ro')
+                color = ['ro', 'bo', 'go', 'yo'][self.GetResult(rotsym, ecc)]
+                p.plot([ecc], [rotsym], color)
         p.savefig(imageFilename)
