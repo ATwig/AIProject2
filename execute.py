@@ -23,21 +23,6 @@ def getData(dataFile):
     return trainingData
 
 
-# def main():
-    # testDataList = []
-
-    # if len(sys.argv) != 3:
-        # print "Error, wrong number of arguments"
-        # return
-
-    # net = cPickle.load(file(sys.argv[2], 'r'))	
-
-    # testDataList = self.getData(sys.argv[1])
-
-    ##TODO: Run testing functions
-    # net.TestNetwork(testDataList, "")
-
-
 def main():
     testDataList = []
 

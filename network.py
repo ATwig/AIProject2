@@ -33,8 +33,7 @@ class Network:
         
 
     def PrintNetwork(self):
-        #for node in [self.boltNode, self.nutNode, self.ringNode, self.scrapNode]:
-        for node in [self.boltNode]:
+        for node in [self.boltNode, self.nutNode, self.ringNode, self.scrapNode]:
             print str(node)
 
     def TrainNetwork(self, trainingData, epochs, weightFilename, imageFilename):
@@ -102,7 +101,6 @@ class Network:
             self.results.append((int(maxIndex+1), int(entry[2])))
             
             if maxIndex+1 == entry[2]:
-                #print "Match!\n"
                 
                 if entry[2] == 1:
                     self.profit += 0.20
@@ -114,12 +112,6 @@ class Network:
                     self.profit -= 0.03
                 
             else:
-                #print "Wrong: %s vs %s" % ((maxIndex+1), entry[2])
-                #for n in self.outputNodes:
-                    #print n.output
-                    
-                #print "-----\n"
-            
                 self.numErrors +=  1
                 
                 if maxIndex+1 == 4:
@@ -137,7 +129,6 @@ class Network:
         outputValues = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
         
         for r in self.results:
-            #print r
             outputValues[r[0]-1][r[1]-1] += 1
             
         print "               Output Class"
@@ -179,3 +170,4 @@ class Network:
                 shadow=True,
                 fancybox=True)
         p.savefig(imageFilename)
+        p.close()
