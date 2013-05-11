@@ -78,6 +78,7 @@ class Network:
         p.plot(range(epochs), sseList)
         cPickle.dump(self, file(weightFilename, 'w'))
         p.savefig(imageFilename)
+        p.close()
 
     def TestNetwork(self, testData, classificationRegionFilename):
         for entry in testData:

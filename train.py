@@ -5,8 +5,6 @@
 
 import sys
 import csv
-import cProfile
-from pylab import *
 
 from network import *
 from node import *
@@ -38,8 +36,8 @@ def main():
     trainingData = getTrainingData(sys.argv[1])
 
     net = Network()
-    net.TrainNetwork(trainingData, 100, "network%s.pickle" %5, "test5.png")
-    net.PrintNetwork()
+    for i in [0, 10, 100, 1000, 10000]:
+        net.TrainNetwork(trainingData, i, "network%s.pickle" % i, "test%s.png" % i)
 
 
 def testNetwork():
@@ -60,4 +58,3 @@ def testNodes():
 
 if __name__ == "__main__":
     main()
-    #cProfile.run('main()')
