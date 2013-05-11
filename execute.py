@@ -26,7 +26,7 @@ def getData(dataFile):
 def main():
     testDataList = []
 
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 3:
         print "Error, wrong number of args"
         return
 
@@ -35,7 +35,7 @@ def main():
     testDataList = getData(sys.argv[1])
 
     net.TestNetwork(testDataList, "")
-    net.WriteClassificationRegion(sys.argv[3])
+    net.WriteClassificationRegion(sys.argv[2] + '-histogram.png')
 
 
 if __name__ == '__main__':
