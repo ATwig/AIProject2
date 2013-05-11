@@ -128,8 +128,17 @@ class Network:
     def WriteClassificationRegion(self, imageFilename):
         p.xlabel("eccentricity")
         p.ylabel("rotational symmetry")
+        points = [[[], []], [[], []], [[], []], [[], []]]
         for ecc in p.arange(0.0, 1.0, 0.02):
             for rotsym in p.arange(0.0, 1.0, 0.02):
-                color = ['ro', 'bo', 'go', 'yo'][self.GetResult(rotsym, ecc)]
-                p.plot([ecc], [rotsym], color)
+                resultClass = self.GetResult(rotsym, ecc)
+                points[resultClass][0].append(ecc)
+                points[resultClass][1].append(rotsym)
+
+        for point, color in zip(points, ["ro", "bo", "go", "yo"]):
+            p.plot(point[0], point[1], color)
+        p.legend(("Bolt", "Nut", "Ring", "Scrap"),
+                loc='upper right',
+                shadow=True,
+                fancybox=True)
         p.savefig(imageFilename)
