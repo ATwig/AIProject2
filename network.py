@@ -110,5 +110,10 @@ class Network:
 			for node in self.outputNodes:
 				node.reset()
 
-    def WriteClassificationRegion(imageFilename):
-        pass
+    def WriteClassificationRegion(self, imageFilename):
+        p.xlabel("eccentricity")
+        p.ylabel("rotational symmetry")
+        for ecc in p.arange(0.0, 1.0, 0.02):
+            for rotsym in p.arange(0.0, 1.0, 0.02):
+                p.plot([ecc], [rotsym], 'ro')
+        p.savefig(imageFilename)

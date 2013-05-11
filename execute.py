@@ -24,31 +24,34 @@ def getData(dataFile):
 
 
 # def main():
-	# testDataList = []
-	
+    # testDataList = []
+
     # if len(sys.argv) != 3:
         # print "Error, wrong number of arguments"
         # return
 
-	# net = cPickle.load(file(sys.argv[2], 'r'))	
-	
-	# testDataList = self.getData(sys.argv[1])
-    
+    # net = cPickle.load(file(sys.argv[2], 'r'))	
+
+    # testDataList = self.getData(sys.argv[1])
+
     ##TODO: Run testing functions
     # net.TestNetwork(testDataList, "")
 
 
 def main():
-	testDataList = []
-	
-	if len(sys.argv) != 3:
-		print "Error, wrong number of args"
-		return
-		
-	net = cPickle.load(file(sys.argv[2], 'r'))
-	
-	testDataList = getData(sys.argv[1])
-	
-	net.TestNetwork(testDataList, "")
+    testDataList = []
+
+    if len(sys.argv) != 4:
+        print "Error, wrong number of args"
+        return
+
+    net = cPickle.load(file(sys.argv[2], 'r'))
+
+    testDataList = getData(sys.argv[1])
+
+    net.TestNetwork(testDataList, "")
+    net.WriteClassificationRegion(sys.argv[3])
+
+
 if __name__ == '__main__':
     main()
